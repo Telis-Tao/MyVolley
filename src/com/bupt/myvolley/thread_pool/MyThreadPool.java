@@ -50,7 +50,8 @@ public class MyThreadPool {
 		if (taskQueue != null) {
 			synchronized (taskQueue) {
 				if (taskQueue.size() >= queueCount) {
-					throw new RuntimeException("task number is greater than task queue size");
+					throw new RuntimeException(
+							"task number is greater than task queue size");
 				}
 				taskQueue.add(r);
 			}

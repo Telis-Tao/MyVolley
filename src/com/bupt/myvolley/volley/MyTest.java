@@ -1,5 +1,7 @@
 package com.bupt.myvolley.volley;
 
+import com.bupt.myvolley.beans.BaiduMapResponse;
+
 public class MyTest {
 	public static void main(String[] args) {
 		// Queue<String> queue = new ArrayBlockingQueue<String>(12);
@@ -12,7 +14,7 @@ public class MyTest {
 
 					@Override
 					public void onResponse(Object o) {
-						System.out.println(o);
+						System.out.println((BaiduMapResponse) o);
 					}
 
 					@Override

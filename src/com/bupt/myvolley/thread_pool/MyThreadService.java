@@ -8,7 +8,7 @@ public class MyThreadService {
 	public static MyThreadPool getInstance(Class<?> clz) {
 		MyThreadPool mThreadPool = null;
 		if (poolMap.containsKey(clz)) {
-			mThreadPool = poolMap.get(Thread.currentThread());
+			mThreadPool = poolMap.get(clz);
 		} else {
 			mThreadPool = new MyThreadPool();
 			poolMap.put(clz, mThreadPool);
