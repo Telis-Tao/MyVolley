@@ -1,4 +1,4 @@
-package com.bupt.testproj.thread_pool;
+package com.bupt.myvolley.thread_pool;
 
 import java.util.HashSet;
 import java.util.Queue;
@@ -28,19 +28,6 @@ public class MyThreadPool {
 	 */
 	public void stop() {
 		isStop = true;
-		// try {
-		// Iterator<Thread> it = null;
-		// if (threadSet != null) {
-		// it = threadSet.iterator();
-		// }
-		// while (it.hasNext()) {
-		// // it.next() = null;
-		// it.remove();
-		// }
-		// } catch (Exception e) {
-		// throw new RuntimeException("something wrong with pool thread");
-		// }
-		// return true;
 	}
 
 	public MyThreadPool(int threadCount, int queueCount) {
@@ -71,16 +58,19 @@ public class MyThreadPool {
 	}
 
 	private class PoolThread extends Thread {
-		private Runnable runnableTmp;
+		private Runnable runnableTmp = null;
 
 		@Override
 		public void run() {
 			while (!isStop) {
-				if (!taskQueue.isEmpty()) {
-					synchronized (taskQueue) {
+				synchronized (taskQueue) {
+					if (!taskQueue.isEmpty()) {
 						runnableTmp = taskQueue.poll();
 					}
+				}
+				if (runnableTmp != null) {
 					runnableTmp.run();
+					runnableTmp = null;
 				}
 			}
 		}

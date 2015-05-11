@@ -1,4 +1,4 @@
-package com.bupt.testproj.volley;
+package com.bupt.myvolley.volley;
 
 public interface ResultListener {
 	void onResponse(Object o);

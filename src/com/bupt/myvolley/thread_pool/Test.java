@@ -1,4 +1,4 @@
-package com.bupt.testproj.thread_pool;
+package com.bupt.myvolley.thread_pool;
 
 public class Test {
 	public static void main(String[] args) {

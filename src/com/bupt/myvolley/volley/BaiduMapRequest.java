@@ -1,21 +1,21 @@
-package com.bupt.testproj.volley;
+package com.bupt.myvolley.volley;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import com.bupt.myvolley.beans.BaiduMapResponse;
+import com.google.gson.Gson;
 
-public class StringRequest extends BasicRequest {
-	ResultListener listener = null;
+public class BaiduMapRequest extends BasicRequest {
 
-	public StringRequest(String url) {
+	public BaiduMapRequest(String url) {
 		super(url);
 	}
 
-	public StringRequest(String url, ResultListener listener) {
+	public BaiduMapRequest(String url, ResultListener listener) {
 		super(url, listener);
-		this.listener = listener;
 	}
 
 	@Override
@@ -26,22 +26,15 @@ public class StringRequest extends BasicRequest {
 			String tmpStr = null;
 			StringBuilder result = new StringBuilder();
 			while ((tmpStr = br.readLine()) != null) {
-				result.append(tmpStr + "\n");
+				result.append(tmpStr + "");
 			}
-			return result;
+			// System.out.println(result);
+			BaiduMapResponse response = new Gson().fromJson(result.toString(),
+					BaiduMapResponse.class);
+			return response;
 		} catch (IOException e) {
 			// TODO: handle exception
 		}
 		return null;
-	}
-	
-	public static void main(String[] args) {
-		try {
-			new StringRequest(
-					"http://api.map.baidu.com/place/v2/search?query=银行&region=济南&output=json&ak=a09j7xFDtXLble7gWeUqP1NH");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

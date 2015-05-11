@@ -1,4 +1,4 @@
-package com.bupt.testproj.volley;
+package com.bupt.myvolley.volley;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -6,7 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class BasicRequest extends AbstractRequest {
-
+	private String url;
 	public BasicRequest(String url) {
 		openConnection(url);
 	}
@@ -16,6 +16,10 @@ public class BasicRequest extends AbstractRequest {
 	}
 
 	@Override
+	void openConnection() {
+		openConnection(url, new DefaultResultListener());
+	}
+
 	void openConnection(String url) {
 		openConnection(url, new DefaultResultListener());
 	}
@@ -24,6 +28,7 @@ public class BasicRequest extends AbstractRequest {
 		if (!url.startsWith("http://")) {
 			url = "http://" + url;
 		}
+		this.url = url;
 		URL u = null;
 		URLConnection conn = null;
 		try {

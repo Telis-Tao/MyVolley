@@ -1,8 +1,8 @@
-package com.bupt.testproj.volley;
+package com.bupt.myvolley.volley;
 
 import java.net.URLConnection;
 
 public abstract class AbstractRequest{
-	abstract void openConnection(String url);
+	abstract void openConnection();
 	abstract Object onResult(URLConnection conn);
 }
