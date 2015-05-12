@@ -6,16 +6,16 @@ import java.io.InputStreamReader;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 
-public class StringRequest extends BasicRequest {
-	ResultListener listener = null;
+import com.bupt.myvolley.memory_cache.LRUCache;
 
+public class StringRequest extends BasicRequest<String>{
+	
 	public StringRequest(String url) {
 		super(url);
 	}
 
 	public StringRequest(String url, ResultListener listener) {
 		super(url, listener);
-		this.listener = listener;
 	}
 
 	@Override
@@ -34,5 +34,4 @@ public class StringRequest extends BasicRequest {
 		}
 		return null;
 	}
-	
 }

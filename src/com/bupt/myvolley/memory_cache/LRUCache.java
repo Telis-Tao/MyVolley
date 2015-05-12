@@ -24,6 +24,10 @@ public class LRUCache<K, V> {
 		queue = new ArrayBlockingQueue<K>(size);
 	}
 
+	public boolean containKey(K key) {
+		return map.containsKey(key);
+	}
+
 	public V get(K key) {
 		if (map.containsKey(key)) {
 			Iterator<K> it = queue.iterator();

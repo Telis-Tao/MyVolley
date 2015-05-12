@@ -1,6 +1,8 @@
 package com.bupt.myvolley.thread_pool;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -14,6 +16,9 @@ public class MyThreadPool {
 	private Set<PoolThread> threadSet;
 	private boolean isStop = false;
 	private Queue<Runnable> taskQueue;
+	private Set<Runnable> onRunningTask;
+
+	// private Map<Runnable, Integer> multipltTask;
 
 	public MyThreadPool() {
 		this(5, 128);
@@ -33,8 +38,14 @@ public class MyThreadPool {
 	public MyThreadPool(int threadCount, int queueCount) {
 		this.threadCount = threadCount;
 		this.queueCount = queueCount;
+		init(threadCount, queueCount);
+	}
+
+	private void init(int threadCount, int queueCount) {
 		taskQueue = new ArrayBlockingQueue<Runnable>(queueCount);
 		threadSet = new HashSet<PoolThread>();
+		onRunningTask = new HashSet<Runnable>();
+		// multipltTask = new HashMap<Runnable, Integer>();
 		for (int i = 0; i < threadCount; i++) {
 			PoolThread t = new PoolThread();
 			t.start();
@@ -47,11 +58,11 @@ public class MyThreadPool {
 	}
 
 	public void execute(Runnable r) {
+		// 在这里做是否已经有的判断
 		if (taskQueue != null) {
 			synchronized (taskQueue) {
 				if (taskQueue.size() >= queueCount) {
-					throw new RuntimeException(
-							"task number is greater than task queue size");
+					throw new RuntimeException("task number is greater than task queue size");
 				}
 				taskQueue.add(r);
 			}
@@ -67,11 +78,13 @@ public class MyThreadPool {
 				synchronized (taskQueue) {
 					if (!taskQueue.isEmpty()) {
 						runnableTmp = taskQueue.poll();
+						onRunningTask.add(runnableTmp);
 					}
 				}
 				if (runnableTmp != null) {
 					runnableTmp.run();
 					runnableTmp = null;
+					onRunningTask.remove(runnableTmp);
 				}
 			}
 		}
