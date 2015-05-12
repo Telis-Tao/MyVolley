@@ -1,8 +1,6 @@
 package com.bupt.myvolley.thread_pool;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -58,7 +56,6 @@ public class MyThreadPool {
 	}
 
 	public void execute(Runnable r) {
-		// 在这里做是否已经有的判断
 		if (taskQueue != null) {
 			synchronized (taskQueue) {
 				if (taskQueue.size() >= queueCount) {

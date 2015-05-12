@@ -10,10 +10,6 @@ import com.google.gson.Gson;
 
 public class BaiduMapRequest extends BasicRequest {
 
-	public BaiduMapRequest(String url) {
-		super(url);
-	}
-
 	public BaiduMapRequest(String url, ResultListener listener) {
 		super(url, listener);
 	}

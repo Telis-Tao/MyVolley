@@ -1,6 +1,6 @@
 package com.bupt.myvolley.volley;
 
-public class DefaultResultListener implements ResultListener {
+public class DefaultResultListener implements ResultListener<Object> {
 
 	@Override
 	public void onError() {

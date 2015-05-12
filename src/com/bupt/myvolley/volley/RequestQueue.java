@@ -16,24 +16,26 @@ public class RequestQueue {
 		mThreadPool = MyThreadService.getInstance(getClass());
 		cache = new LRUCache<BasicRequest<?>, Object>(16);
 		list = new ArrayList<BasicRequest<?>>();
-		new daemonThread().start();
+		new DaemonThread().start();
 	}
 
-	public void add(final BasicRequest<?> request) {
+	public void add(BasicRequest<?> request) {
+		request.setCache(cache);
 		if (cache != null) {
-			Object o = null;
 			if (cache.containKey(request)) {
 				if (cache.get(request) == null) {
 					list.add(request);
+				} else {
+					request.listener.onResponse(cache.get(request));
 				}
-				request.listener.onResponse(o);
 				return;
 			}
 		}
 		mThreadPool.execute(request);
+		cache.put(request, null);
 	}
 
-	private class daemonThread extends Thread {
+	private class DaemonThread extends Thread {
 		@Override
 		public void run() {
 			while (true) {
@@ -41,6 +43,7 @@ public class RequestQueue {
 					for (int i = 0; i < list.size(); i++) {
 						BasicRequest<?> request = list.get(i);
 						if (cache.get(request) != null) {
+							System.out.println("------------ cacahe -------------");
 							request.listener.onResponse(cache.get(request));
 						}
 					}

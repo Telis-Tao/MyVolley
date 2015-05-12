@@ -8,18 +8,14 @@ import java.nio.charset.Charset;
 
 import com.bupt.myvolley.memory_cache.LRUCache;
 
-public class StringRequest extends BasicRequest<String>{
-	
-	public StringRequest(String url) {
-		super(url);
-	}
+public class StringRequest extends BasicRequest<String> {
 
-	public StringRequest(String url, ResultListener listener) {
+	public StringRequest(String url, ResultListener<String> listener) {
 		super(url, listener);
 	}
 
 	@Override
-	Object onResult(URLConnection conn) {
+	String onResult(URLConnection conn) {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),
 					Charset.forName("utf-8")));
@@ -28,7 +24,7 @@ public class StringRequest extends BasicRequest<String>{
 			while ((tmpStr = br.readLine()) != null) {
 				result.append(tmpStr + "\n");
 			}
-			return result;
+			return result.toString();
 		} catch (IOException e) {
 			// TODO: handle exception
 		}

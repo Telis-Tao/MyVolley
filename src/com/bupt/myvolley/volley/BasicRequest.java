@@ -7,22 +7,29 @@ import java.net.URLConnection;
 
 import com.bupt.myvolley.memory_cache.LRUCache;
 
-public class BasicRequest<T> extends AbstractRequest implements Runnable {
+public class BasicRequest<T> extends AbstractRequest<Object> implements Runnable {
 	private String url;
-	private LRUCache<Integer, T> cache = null;
-	public ResultListener listener = null;
+	private LRUCache<BasicRequest<?>, Object> cache = null;
+	public ResultListener<T> listener = null;
 
-	public LRUCache<Integer, T> getCache() {
+	public void setCache(LRUCache<BasicRequest<?>, Object> cache) {
+		this.cache = cache;
+	}
+
+	public LRUCache<BasicRequest<?>, Object> getCache() {
 		return cache;
 	}
 
-	public BasicRequest(String url) {
-		this(url, new DefaultResultListener());
-	}
-
-	public BasicRequest(String url, ResultListener listener) {
+	public BasicRequest(String url, ResultListener<T> listener) {
 		this.url = url;
 		this.listener = listener;
+	}
+
+	public BasicRequest(String url, ResultListener<T> listener,
+			LRUCache<BasicRequest<?>, Object> cache) {
+		this.url = url;
+		this.listener = listener;
+		this.cache = cache;
 	}
 
 	/*
@@ -32,7 +39,7 @@ public class BasicRequest<T> extends AbstractRequest implements Runnable {
 	 * com.bupt.testproj.volley.AbstractRequest#onResult(java.net.URLConnection)
 	 */
 	@Override
-	Object onResult(URLConnection conn) {
+	T onResult(URLConnection conn) {
 		return null;
 	}
 
@@ -44,6 +51,7 @@ public class BasicRequest<T> extends AbstractRequest implements Runnable {
 		return result;
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -63,16 +71,18 @@ public class BasicRequest<T> extends AbstractRequest implements Runnable {
 
 	@Override
 	public void run() {
+		String httpUrl = "";
 		if (!url.startsWith("http://")) {
-			url = "http://" + url;
+			httpUrl = "http://" + url;
 		}
 		URL u = null;
 		URLConnection conn = null;
 		try {
-			u = new URL(url);
+			u = new URL(httpUrl);
 			conn = u.openConnection();
-			Object o = onResult(conn);
-			listener.onResponse(o);
+			T t = onResult(conn);
+			cache.put(this, t);
+			listener.onResponse(t);
 		} catch (MalformedURLException e) {
 			listener.onError();
 			e.printStackTrace();
