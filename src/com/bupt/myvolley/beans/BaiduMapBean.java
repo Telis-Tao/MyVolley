@@ -8,6 +8,25 @@ public class BaiduMapBean {
 	private String telephone;
 	private String uid;
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("BaiduMapBean [name=");
+		builder.append(name);
+		builder.append(", location=");
+		builder.append(location);
+		builder.append(", address=");
+		builder.append(address);
+		builder.append(", street_id=");
+		builder.append(street_id);
+		builder.append(", telephone=");
+		builder.append(telephone);
+		builder.append(", uid=");
+		builder.append(uid);
+		builder.append("]");
+		return builder.toString();
+	}
+
 	public String getName() {
 		return name;
 	}

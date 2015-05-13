@@ -7,7 +7,7 @@ import java.net.URLConnection;
 
 import com.bupt.myvolley.memory_cache.LRUCache;
 
-public class BasicRequest<T> extends AbstractRequest<Object> implements Runnable {
+public class BasicRequest<T> extends AbstractRequest<T> implements Runnable {
 	private String url;
 	private LRUCache<BasicRequest<?>, Object> cache = null;
 	public ResultListener<T> listener = null;

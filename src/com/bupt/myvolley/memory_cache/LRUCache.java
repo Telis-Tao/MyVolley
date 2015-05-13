@@ -5,6 +5,12 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
+/**
+ * memory cache
+ * 
+ * @param <K>
+ * @param <V>
+ */
 public class LRUCache<K, V> {
 	public static final int SIZE_BASED = 1;
 	public static final int NUMBER_BASED = 2;

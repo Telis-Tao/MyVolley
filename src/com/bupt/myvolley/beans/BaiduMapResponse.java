@@ -15,6 +15,12 @@ public class BaiduMapResponse {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		return "BaiduMapResponse [status=" + status + ", message=" + message + ", results="
+				+ results + "]";
+	}
+
 	public String getMessage() {
 		return message;
 	}

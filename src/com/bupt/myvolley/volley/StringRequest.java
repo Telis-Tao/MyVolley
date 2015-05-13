@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 
-import com.bupt.myvolley.memory_cache.LRUCache;
-
 public class StringRequest extends BasicRequest<String> {
 
 	public StringRequest(String url, ResultListener<String> listener) {

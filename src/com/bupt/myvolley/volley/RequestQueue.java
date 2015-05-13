@@ -11,12 +11,24 @@ public class RequestQueue {
 	private MyThreadPool mThreadPool = null;
 	private LRUCache<BasicRequest<?>, Object> cache;
 	private List<BasicRequest<?>> list;
+	private Thread daemonThread;
+	private boolean isDaemonThreadStop = false;
 
 	public RequestQueue() {
 		mThreadPool = MyThreadService.getInstance(getClass());
 		cache = new LRUCache<BasicRequest<?>, Object>(16);
 		list = new ArrayList<BasicRequest<?>>();
-		new DaemonThread().start();
+		daemonThread = new DaemonThread();
+		daemonThread.start();
+	}
+
+	public void finish() {
+		mThreadPool.stop();
+		stopDaemonThread();
+	}
+
+	private void stopDaemonThread() {
+		isDaemonThreadStop = true;
 	}
 
 	public void add(BasicRequest<?> request) {
@@ -38,7 +50,7 @@ public class RequestQueue {
 	private class DaemonThread extends Thread {
 		@Override
 		public void run() {
-			while (true) {
+			while (!isDaemonThreadStop) {
 				if (!list.isEmpty()) {
 					for (int i = 0; i < list.size(); i++) {
 						BasicRequest<?> request = list.get(i);

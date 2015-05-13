@@ -8,14 +8,14 @@ import java.nio.charset.Charset;
 import com.bupt.myvolley.beans.BaiduMapResponse;
 import com.google.gson.Gson;
 
-public class BaiduMapRequest extends BasicRequest {
+public class BaiduMapRequest extends BasicRequest<BaiduMapResponse> {
 
-	public BaiduMapRequest(String url, ResultListener listener) {
+	public BaiduMapRequest(String url, ResultListener<BaiduMapResponse> listener) {
 		super(url, listener);
 	}
 
 	@Override
-	Object onResult(URLConnection conn) {
+	BaiduMapResponse onResult(URLConnection conn) {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),
 					Charset.forName("utf-8")));
