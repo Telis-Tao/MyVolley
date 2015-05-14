@@ -7,7 +7,7 @@ import java.net.URLConnection;
 
 import com.bupt.myvolley.memory_cache.LRUCache;
 
-public class BasicRequest<T> extends AbstractRequest<T> implements Runnable {
+public abstract class BasicRequest<T> extends AbstractRequest<T> implements Runnable {
 	private String url;
 	private LRUCache<BasicRequest<?>, Object> cache = null;
 	public ResultListener<T> listener = null;
@@ -39,9 +39,7 @@ public class BasicRequest<T> extends AbstractRequest<T> implements Runnable {
 	 * com.bupt.testproj.volley.AbstractRequest#onResult(java.net.URLConnection)
 	 */
 	@Override
-	T onResult(URLConnection conn) {
-		return null;
-	}
+	abstract T onResult(URLConnection conn);
 
 	@Override
 	public int hashCode() {
